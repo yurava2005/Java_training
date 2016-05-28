@@ -8,6 +8,8 @@ public class MyFirstProgram {
     double y1 = 3;
     double y2 = 8;
 
+
+
     System.out.println("Расстояние между двумя точками с координатами (" + x1 + "," + y1 + ") и (" + x2 + "," + y2 + ") равно " + distance(x1,y1,x2,y2));
     Square s = new Square(5);
     System.out.println("Площадь квадрата со стороной " + s.l + " = " + s.area());
