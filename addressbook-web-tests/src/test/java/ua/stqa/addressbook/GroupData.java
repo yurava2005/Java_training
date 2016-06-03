@@ -1,4 +1,4 @@
-package ua.stqa.sandbox;
+package ua.stqa.addressbook;
 
 public class GroupData {
   private final String name;

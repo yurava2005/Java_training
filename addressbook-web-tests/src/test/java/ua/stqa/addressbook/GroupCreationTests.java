@@ -1,4 +1,4 @@
-package ua.stqa.sandbox;
+package ua.stqa.addressbook;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.AfterMethod;

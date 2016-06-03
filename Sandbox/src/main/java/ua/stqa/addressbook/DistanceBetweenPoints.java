@@ -1,4 +1,4 @@
-package ua.stqa.sandbox;
+package ua.stqa.addressbook;
 
 /**
  * Created by юля on 26.05.2016.

@@ -1,4 +1,4 @@
-package ua.stqa.sandbox;
+package ua.stqa.addressbook;
 
 public class MyFirstProgram {
   public static void main(String[] args) {
