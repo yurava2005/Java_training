@@ -1,7 +1,7 @@
 package ua.stqa.addressbook.appmanager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.WebDriver;
 
 /**
  * Created by юля on 03.06.2016.
@@ -9,7 +9,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 public class SessionHelper extends HelperBase {
 
 
-  public SessionHelper(FirefoxDriver wd) {
+  public SessionHelper(WebDriver wd) {
     super(wd);
   }
   public void login(String username, String password) {
