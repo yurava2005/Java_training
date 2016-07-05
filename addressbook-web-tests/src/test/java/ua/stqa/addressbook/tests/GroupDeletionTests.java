@@ -2,6 +2,7 @@ package ua.stqa.addressbook.tests;
 
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ua.stqa.addressbook.model.GroupData;
 
@@ -9,31 +10,28 @@ import java.util.List;
 
 
 public class GroupDeletionTests extends TestBase {
-
+  @BeforeMethod
+  public void ensurePreconditions () {
+    app.goTo().groupPage();
+    if (app.group().list().size() == 0){
+      app.group().create(new GroupData().withName("test1"));
+    }
+  }
 
   @Test
   public void testGroupDeletion() {
-    app.getNavigationHelper().gotoGroupPage();
-    // сформировать списко ДО из имен групп
-    List<GroupData> before = app.getGroupHelper().getGroupList();
-    int groupToDelete = before.size() - 1;
-    if (! app.getGroupHelper().isThereAGroup()) {
-      app.getGroupHelper().createGroup(new GroupData("test1", null, "test3"));
-    }
-    app.getGroupHelper().selectGroup(groupToDelete);
-    app.getGroupHelper().deleteSelectedGroups();
-    app.getGroupHelper().returnToGroupPage();
+    List<GroupData> before = app.group().list();
+    int index = before.size() - 1;
+    app.group().delete(index);
 
     // сформировать список ПОСЛЕ из имен групп
-    List<GroupData> after = app.getGroupHelper().getGroupList();
+    List<GroupData> after = app.group().list();
 
     // удалить из списка ДО тот же элемент, что удалили тестом
-    before.remove(groupToDelete);
+    before.remove(index);
     // сравнить новый список ДО и списокы ПОСЛЕ
     Assert.assertEquals(before, after);
 
 
   }
-
-
 }
