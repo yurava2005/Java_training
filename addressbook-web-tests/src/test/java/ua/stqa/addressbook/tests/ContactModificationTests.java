@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ContactModificationTests extends TestBase {
 
-  @Test (enabled = false)
+  @Test (enabled = true)
   public void testContactModification() {
     app.goTo().gotoHomePage();
     if (! app.getContactHelper().isThereAContact()) {
@@ -17,7 +17,7 @@ public class ContactModificationTests extends TestBase {
               "Mobile", "Work", "Fax", "19", "March", "1962", "5", "January", "1976", "Address2", "Phone2", "Notes", "test1"));
     }
     List<ContactData> before = app.getContactHelper().getContactList();
-    int index = 0; // с двойки начинается нумерация строк в таблице
+    int index = before.size() - 1;
     app.getContactHelper().initContactModification(index);
     ContactData contact = new ContactData(before.get(index).getId(), "FirstName_Modified", "MiddleName", "LastName", "NickName", "Title", "Company", "Address", "Home",
             "Mobile", "Work", "Fax", "19", "March", "1962", "5", "January", "1976", "Address2", "Phone2", "Notes", null);

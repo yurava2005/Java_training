@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ContactDeletionTests extends TestBase {
 
-  @Test (enabled = false)
+  @Test (enabled = true)
   public void testContactDeletion(){
 
     app.goTo().gotoHomePage();
@@ -17,7 +17,7 @@ public class ContactDeletionTests extends TestBase {
               "Mobile", "Work", "Fax", "18", "March", "1962", "5", "January", "1976", "Address2", "Phone2", "Notes", "test1"));
     }
     List<ContactData> before = app.getContactHelper().getContactList();
-    int index = 0;
+    int index = before.size() - 1;
     app.getContactHelper().selectContact(index);
     app.getContactHelper().deleteSelectedContact();
 
