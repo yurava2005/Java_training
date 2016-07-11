@@ -4,28 +4,28 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import ua.stqa.addressbook.model.ContactData;
 
-import java.util.Comparator;
-import java.util.List;
+import java.util.Set;
 
 
 public class ContactCreationTests extends TestBase{
 
   @Test (enabled = true)
   public void testContactCreation() {
-    app.goTo().gotoHomePage();
-    List<ContactData> before = app.getContactHelper().getContactList();
-    ContactData contact = new ContactData("FirstName", "MiddleName", "LastName", "NickName", "Title", "Company", "Address", "Home",
-            "Mobile", "Work", "Fax", "18", "March", "1962", "5", "January", "1976", "Address2", "Phone2", "Notes", "test1");
-    app.getContactHelper().createContact(contact);
-    List<ContactData> after = app.getContactHelper().getContactList();
+    app.goTo().homePage();
+    Set<ContactData> before = app.contact().all();
+    ContactData contact = new ContactData().withFirstname("FirstName").withMiddlename("MiddleName").withLastname("LastName").withNickname("NickName")
+            .withTitle("Title").withCompany("Company").withAddress("Address").withHome("Home")
+            .withMobile("Mobile").withWork("Work").withFax("Fax").withBday("18").withBmohth("March").withByear("1962")
+            .withAday("5").withAmonth("January").withAyear("1976").withAddress2("Address2").withPhone2("Phone2")
+            .withNotes("Notes").withGroup("test1");
+    app.contact().create(contact);
+    Set<ContactData> after = app.contact().all();
 
-    //contact.setId(after.stream().max((o1, o2) -> Integer.compare(o1.getId(), o2.getId())).get().getId());
+    contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()); // превратили в поток чисел - ID контактов при помощи метода MapToInt
     before.add(contact);
-    Comparator<? super ContactData> byId = (g1, g2) -> Integer.compare(g1.getId(), g2.getId());
-    before.sort(byId);
-    after.sort(byId);
     Assert.assertEquals(before, after);
     //Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
+    //MatcherAssert.assertThat(after, CoreMatchers.equalTo(before.));
 
   }
 
