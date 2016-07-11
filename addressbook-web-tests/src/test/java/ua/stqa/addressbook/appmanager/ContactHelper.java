@@ -6,11 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ua.stqa.addressbook.model.ContactData;
+import ua.stqa.addressbook.model.Contacts;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by юля on 03.06.2016.
@@ -90,11 +88,10 @@ public class ContactHelper extends HelperBase {
     // к индексу нужно прибавить двойку, чтобы попасть в нужную строку таблицы
     click(By.xpath("//table[@id='maintable']/tbody/tr[" + (index + 2) + "]/td[8]/a/img"));
   }
-  //click(By.linkText("edit.php?id=" + id)
+
 
   private void initContactModificationById(int id) {
-    String t = "edit.php?id=" + id;
-    wd.findElement(By.cssSelector("a[href = '" + t + "']")).click();
+    wd.findElement(By.cssSelector("a[href = 'edit.php?id=" + id + "']")).click();
   }
 
   public void submitContactModification() {
@@ -131,22 +128,14 @@ public class ContactHelper extends HelperBase {
   }
 
 
-  public void delete(int index) {
-    selectContact(index);
-    deleteSelectedContact();
-
-  }
 
   public void delete(ContactData contact) {
     selectContactByID(contact.getId());
     deleteSelectedContact();
   }
-  public boolean isThereAContact() {
-    return isElementPresent(By.name("selected[]"));
-  }
 
-  public Set<ContactData> all() {
-    Set<ContactData> contacts = new HashSet<ContactData>();
+  public Contacts all() {
+    Contacts contacts = new Contacts();
     List<WebElement> elements = wd.findElements(By.name("entry"));
     int i = 2;
     for (WebElement element : elements) {
@@ -159,6 +148,5 @@ public class ContactHelper extends HelperBase {
     }
     return contacts;
   }
-
 
 }
