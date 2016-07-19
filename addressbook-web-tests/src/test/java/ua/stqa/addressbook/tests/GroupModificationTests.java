@@ -28,12 +28,10 @@ public class GroupModificationTests extends TestBase{
     GroupData group = new GroupData()
             .withId(modifiedGroup.getId()).withName("test1").withHeader("test666").withFooter("test4");
     app.group().modify(group);
-    // сформировать список групп ПОСЛЕ
+    // сначала сравнить размер (менее тяжеловесная проверка макс быстрым способом)
+    assertThat(app.group().count(), equalTo(before.size()));
+    // только потом формировать списки для тяжедловесніх проверок
     Groups after = app.group().all();
-    // сравнить размеры
-    assertEquals(after.size(), before.size());
-    // удалить старую (до модификации) из списка before
-    // добавить ту, что модифицировали
     assertThat(after, equalTo(before.without(modifiedGroup).withAdded(group)));
   }
 

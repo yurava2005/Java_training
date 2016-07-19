@@ -29,8 +29,8 @@ public class ContactDeletionTests extends TestBase {
     ContactData deletedContact = before.iterator().next(); // так работают множества - через итератор
     app.contact().delete(deletedContact);
     app.goTo().homePage();
+    assertThat(app.contact().count(), equalTo(before.size()-1));
     Contacts after = app.contact().all();
-    Assert.assertEquals(before.size()-1, after.size());
     assertThat(after, equalTo(before.without(deletedContact)));
 
   }
