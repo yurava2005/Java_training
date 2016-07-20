@@ -19,7 +19,7 @@ public class ContactModificationTests extends TestBase {
               .withTitle("Title").withCompany("Company").withAddress("Address").withHome("Home")
               .withMobile("Mobile").withWork("Work").withFax("Fax").withBday("18").withBmohth("March").withByear("1962")
               .withAday("5").withAmonth("January").withAyear("1976").withAddress2("Address2").withPhone2("Phone2")
-              .withNotes("Notes").withGroup("test1"));
+              .withNotes("Notes"));
     }
   }
 

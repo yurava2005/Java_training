@@ -25,6 +25,7 @@ public class ContactHelper extends HelperBase {
     type(By.name("firstname"), contactData.getFirstname());
     type(By.name("middlename"), contactData.getMiddlename());
     type(By.name("lastname"), contactData.getLastname());
+    type(By.name("photo"), contactData.getPhoto().getAbsolutePath());
     type(By.name("nickname"), contactData.getNickname());
     type(By.name("title"), contactData.getTitle());
     type(By.name("company"), contactData.getCompany());
@@ -33,20 +34,28 @@ public class ContactHelper extends HelperBase {
     type(By.name("mobile"), contactData.getMobile());
     type(By.name("work"), contactData.getWork());
     type(By.name("fax"), contactData.getFax());
+    type(By.name("email"), contactData.getEmail());
+    type(By.name("email2"), contactData.getEmail2());
+    type(By.name("email3"), contactData.getEmail3());
+
     //--------------------
     // birthday
     //--------------------
-    selectFromDropDownList("bday", contactData.getBday());
-    selectFromDropDownList("bmonth", contactData.getBmohth());
-    type(By.name("byear"), contactData.getByear());
+    if (contactData.getBday() != null) {
+      selectFromDropDownList("bday", contactData.getBday());
+      selectFromDropDownList("bmonth", contactData.getBmohth());
+      type(By.name("byear"), contactData.getByear());
+    }
 
-    //--------------------
-    // anniversary
-    //--------------------
-    selectFromDropDownList("aday", contactData.getAday());
-    selectFromDropDownList("amonth", contactData.getAmonth());
-    type(By.name("ayear"), contactData.getAyear());
+    if (contactData.getAday() != null) {
 
+      //--------------------
+      // anniversary
+      //--------------------
+      selectFromDropDownList("aday", contactData.getAday());
+      selectFromDropDownList("amonth", contactData.getAmonth());
+      type(By.name("ayear"), contactData.getAyear());
+    }
     //--------------------
     // Экспериментальный альтернативный поиск по xpath
     //--------------------
@@ -60,7 +69,9 @@ public class ContactHelper extends HelperBase {
     type(By.name("phone2"), contactData.getPhone2());
     type(By.name("notes"), contactData.getNotes());
     if (creation) {
-      selectFromDropDownList("new_group", contactData.getGroup());
+      if (contactData.getGroup() != null) {
+        selectFromDropDownList("new_group", contactData.getGroup());
+      }
     } else {
       Assert.assertFalse(isElementPresent(By.name("new_group")));
     }
@@ -104,6 +115,12 @@ public class ContactHelper extends HelperBase {
     wd.navigate().back();
     return new ContactData().withId(contact.getId()).withFirstname(firstname).withLastname(lastname).withHome(home)
             .withWork(work).withMobile(mobile).withPhone2(phone2).withAddress(address).withEmail(email).withEmail2(email2).withEmail3(email3);
+  }
+
+  public ContactData infoFromViewForm(ContactData contact) {
+   // initContactViewByID(contact.getId());
+
+     return null;
   }
 
   public void initContactModificationById(int id) {
@@ -161,7 +178,7 @@ public class ContactHelper extends HelperBase {
   private Contacts contactCache = null;
 
   public Contacts all() {
-  //список контактов с главной формы
+    //список контактов с главной формы
     if (contactCache != null) {
       return new Contacts(contactCache);
     }
@@ -183,6 +200,7 @@ public class ContactHelper extends HelperBase {
     }
     return new Contacts(contactCache);
   }
+
 
 
 }

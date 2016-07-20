@@ -4,6 +4,8 @@ import org.testng.annotations.Test;
 import ua.stqa.addressbook.model.ContactData;
 import ua.stqa.addressbook.model.Contacts;
 
+import java.io.File;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -17,17 +19,21 @@ public class ContactCreationTests extends TestBase{
             .withTitle("Title").withCompany("Company").withAddress("Address").withHome("Home")
             .withMobile("Mobile").withWork("Work").withFax("Fax").withBday("18").withBmohth("March").withByear("1962")
             .withAday("5").withAmonth("January").withAyear("1976").withAddress2("Address2").withPhone2("Phone2")
-            .withNotes("Notes").withGroup("test1");
+            .withNotes("Notes");
+    File photo = new File("src/test/resources/cat.jpg");
     app.contact().create(contact);
     assertThat(app.contact().count(), equalTo(before.size() + 1));
     Contacts after = app.contact().all();
     assertThat(after, equalTo(
             before.withAdded(contact.withId(after.stream().mapToInt(c -> c.getId()).max().getAsInt())))); // превратили в поток чисел - ID контактов при помощи метода MapToInt
-
-
   }
 
-
-
-
+  @Test (enabled = false)
+  public void testCurrentDir(){
+    File currentDir = new File("");
+    System.out.println(currentDir.getAbsolutePath());
+    File photo = new File("src/test/resources/cat.jpg");
+    System.out.println(photo.getAbsolutePath());
+    System.out.println(photo.exists());
+  }
 }
