@@ -3,18 +3,21 @@
     "firstname": "Name 0",
     "lastname": "Surname 0",
     "address": "Address 0",
-    "home": "Home phone 0"
+    "home": "Home phone 0",
+    "photo": "src/test/resources/cat.jpg"
   },
   {
     "firstname": "Name 1",
     "lastname": "Surname 1",
     "address": "Address 1",
-    "home": "Home phone 1"
+    "home": "Home phone 1",
+    "photo": "src/test/resources/cat.jpg"
   },
   {
     "firstname": "Name 2",
     "lastname": "Surname 2",
     "address": "Address 2",
-    "home": "Home phone 2"
+    "home": "Home phone 2",
+    "photo": "src/test/resources/cat.jpg"
   }
 ]

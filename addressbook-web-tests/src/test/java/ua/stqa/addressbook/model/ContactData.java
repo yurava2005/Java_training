@@ -61,7 +61,7 @@ public class ContactData {
   @Expose
   private String allEmails;
   @Expose
-  private File photo;
+  private String photo; // использую тип String вместо File, для генерации пути для фото в тектовом формате
 
   private boolean actual;
 
@@ -73,8 +73,6 @@ public class ContactData {
     this.actual = actual;
     return this;
   }
-
-
 
 
   public int getId() {
@@ -186,7 +184,7 @@ public class ContactData {
   }
 
   public File getPhoto() {
-    return photo;
+    return new File(photo);
   }
 
   public ContactData withId(int id) {
@@ -324,10 +322,16 @@ public class ContactData {
     return this;
   }
 
-  public ContactData withPhoto(File photo) {
+  public ContactData withPhoto(String photo) {
     this.photo = photo;
     return this;
   }
+//  public ContactData withPhoto(String photo) {
+//
+//    this.photo = new File(file_photo);
+//    return this;
+//  }
+
 
   @Override
   public String toString() {
