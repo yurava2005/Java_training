@@ -1,0 +1,23 @@
+<list>
+  <ua.stqa.addressbook.model.ContactData>
+    <firstname>Name 0</firstname>
+    <lastname>Surname 0</lastname>
+    <address>Address 0</address>
+    <home>Home phone 0</home>
+    <actual>false</actual>
+  </ua.stqa.addressbook.model.ContactData>
+  <ua.stqa.addressbook.model.ContactData>
+    <firstname>Name 1</firstname>
+    <lastname>Surname 1</lastname>
+    <address>Address 1</address>
+    <home>Home phone 1</home>
+    <actual>false</actual>
+  </ua.stqa.addressbook.model.ContactData>
+  <ua.stqa.addressbook.model.ContactData>
+    <firstname>Name 2</firstname>
+    <lastname>Surname 2</lastname>
+    <address>Address 2</address>
+    <home>Home phone 2</home>
+    <actual>false</actual>
+  </ua.stqa.addressbook.model.ContactData>
+</list>
