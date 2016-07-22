@@ -118,9 +118,9 @@ public class ContactHelper extends HelperBase {
   }
 
   public ContactData infoFromViewForm(ContactData contact) {
-   // initContactViewByID(contact.getId());
+    // initContactViewByID(contact.getId());
 
-     return null;
+    return null;
   }
 
   public void initContactModificationById(int id) {
@@ -200,7 +200,6 @@ public class ContactHelper extends HelperBase {
     }
     return new Contacts(contactCache);
   }
-
 
 
 }

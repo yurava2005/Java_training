@@ -19,39 +19,43 @@ import java.util.stream.Collectors;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class ContactCreationTests extends TestBase{
+public class ContactCreationTests extends TestBase {
 
 
   @DataProvider
   public Iterator<Object[]> validContactsFromXML() throws IOException {
-     BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.xml")));
-    String xml = "";
-    String line = reader.readLine();
-    while (line != null) {
-      xml += line;
-      line = reader.readLine();
+    try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.xml")))) {
+      String xml = "";
+      String line = reader.readLine();
+      while (line != null) {
+        xml += line;
+        line = reader.readLine();
+      }
+      XStream xstream = new XStream();
+      xstream.processAnnotations(ContactData.class);
+      List<ContactData> contacts = (List<ContactData>) xstream.fromXML(xml);
+      return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
     }
-    XStream xstream = new XStream();
-    xstream.processAnnotations(ContactData.class);
-    List<ContactData> contacts = (List<ContactData>) xstream.fromXML(xml);
-    return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
   }
+
   @DataProvider
   public Iterator<Object[]> validContactsFromJSON() throws IOException {
-    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.json")));
-    String json = "";
-    String line = reader.readLine();
-    while (line != null) {
-      json += line;
-      line = reader.readLine();
+    try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.json")))) {
+      String json = "";
+      String line = reader.readLine();
+      while (line != null) {
+        json += line;
+        line = reader.readLine();
+      }
+      Gson gson = new Gson();
+      List<ContactData> contacts = gson.fromJson(json, new TypeToken<List<ContactData>>() {
+      }.getType());
+      return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
     }
-    Gson gson = new Gson();
-    List<ContactData> contacts = gson.fromJson(json, new TypeToken<List<ContactData>>(){}.getType());
-    return contacts.stream().map((g) -> new Object[] {g}).collect(Collectors.toList()).iterator();
   }
 
 
-  @Test (enabled = true, dataProvider = "validContactsFromJSON")
+  @Test(enabled = true, dataProvider = "validContactsFromJSON")
   public void testContactCreation(ContactData contact) {
     app.goTo().homePage();
     Contacts before = app.contact().all();
@@ -62,8 +66,8 @@ public class ContactCreationTests extends TestBase{
             before.withAdded(contact.withId(after.stream().mapToInt(c -> c.getId()).max().getAsInt())))); // превратили в поток чисел - ID контактов при помощи метода MapToInt
   }
 
-  @Test (enabled = false)
-  public void testCurrentDir(){
+  @Test(enabled = false)
+  public void testCurrentDir() {
     File currentDir = new File("");
     System.out.println(currentDir.getAbsolutePath());
     File photo = new File("src/test/resources/cat.jpg");

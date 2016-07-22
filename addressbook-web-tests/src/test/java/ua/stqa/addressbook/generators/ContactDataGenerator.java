@@ -36,6 +36,7 @@ public class ContactDataGenerator {
     }
     generator.run();
   }
+
   void run() throws IOException {
     List<ContactData> contacts = generateContacts(count);
     if (format.equals("xml")) {
@@ -51,26 +52,26 @@ public class ContactDataGenerator {
   private void saveAsJSON(List<ContactData> contacts, File file) throws IOException {
     Gson gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
     String json = gson.toJson(contacts);
-    Writer writer = new FileWriter(file);
-    writer.write(json);
-    writer.close();
+    try (Writer writer = new FileWriter(file)) {
+      writer.write(json);
+    }
   }
 
   private void saveAsXML(List<ContactData> contacts, File file) throws IOException {
     XStream xstream = new XStream();
     xstream.processAnnotations(ContactData.class);
     String xml = xstream.toXML(contacts);
-    Writer writer = new FileWriter(file);
-    writer.write(xml);
-    writer.close();
+    try (Writer writer = new FileWriter(file)) {
+      writer.write(xml);
+    }
   }
 
 
   private List<ContactData> generateContacts(int count) {
     List<ContactData> contacts = new ArrayList<ContactData>();
     for (int i = 0; i < count; i++) {
-      contacts.add(new ContactData().withPhoto("src/test/resources/cat.jpg").withFirstname(String.format("Name %s", i)).withLastname(String.format("Surname %s",i))
-      .withAddress(String.format("Address %s", i)).withHome(String.format("Home phone %s", i)));
+      contacts.add(new ContactData().withFirstname(String.format("Name %s", i)).withLastname(String.format("Surname %s", i))
+              .withAddress(String.format("Address %s", i)).withHome(String.format("Home phone %s", i)));
     }
     return contacts;
   }
