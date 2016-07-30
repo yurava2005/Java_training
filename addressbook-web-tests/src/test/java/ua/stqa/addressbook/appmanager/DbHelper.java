@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.testng.Assert;
 import ua.stqa.addressbook.model.ContactData;
 import ua.stqa.addressbook.model.Contacts;
 import ua.stqa.addressbook.model.GroupData;
@@ -48,6 +49,17 @@ public class DbHelper {
     session.getTransaction().commit();
     session.close();
     return new Contacts(result);
+  }
+
+  public ContactData getContactByID(int id) {
+    Session session = sessionFactory.openSession();
+    session.beginTransaction();
+    List<ContactData> result = session.createQuery("from ContactData where deprecated = '0000-00-00' " +
+            "and id = " + id).list();
+    Assert.assertEquals(result.size(), 1);
+    session.getTransaction().commit();
+    session.close();
+    return  result.iterator().next();
   }
 }
 

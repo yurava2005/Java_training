@@ -6,6 +6,8 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "addressbook")
@@ -107,9 +109,16 @@ public class ContactData {
   @Type(type = "text")
   private String notes = "";
 
+
+
+
   @Expose
-  @Transient
-  private String group;
+  @ManyToMany (fetch = FetchType.EAGER) // для извлечения информации о группах из соседних таблиц сразу вместе с контактами
+  @JoinTable(name = "address_in_groups", // таблица связи
+          joinColumns = @JoinColumn(name = "id"), // столбец указівающий на обїект данного класса
+          inverseJoinColumns = @JoinColumn(name = "group_id")) // столбец с айди объекта связанного класа
+  private Set<GroupData> groups = new HashSet<GroupData>();
+
 
   @Expose
   @Transient
@@ -157,7 +166,7 @@ public class ContactData {
   }
 
   public String getFirstname() {
-      return firstname;
+    return firstname;
   }
 
   public String getMiddlename() {
@@ -166,39 +175,39 @@ public class ContactData {
 
 
   public String getLastname() {
-      return lastname;
+    return lastname;
   }
 
   public String getNickname() {
-      return nickname;
-    }
+    return nickname;
+  }
 
   public String getTitle() {
-      return title;
+    return title;
   }
 
   public String getCompany() {
-      return company;
+    return company;
   }
 
   public String getAddress() {
-      return address;
+    return address;
   }
 
   public String getHome() {
-      return home;
+    return home;
   }
 
   public String getMobile() {
-      return mobile;
-    }
+    return mobile;
+  }
 
   public String getWork() {
-      return work;
+    return work;
   }
 
   public String getFax() {
-      return fax;
+    return fax;
   }
 
   public String getBday() {
@@ -214,7 +223,7 @@ public class ContactData {
   }
 
   public String getByear() {
-      return byear;
+    return byear;
   }
 
   public String getAday() {
@@ -226,27 +235,27 @@ public class ContactData {
   }
 
   public String getAmonth() {
-      return amonth;
+    return amonth;
   }
 
   public String getAyear() {
-      return ayear;
+    return ayear;
   }
 
   public String getAddress2() {
-      return address2;
+    return address2;
   }
 
   public String getPhone2() {
-      return phone2;
+    return phone2;
   }
 
   public String getNotes() {
-      return notes;
+    return notes;
   }
 
-  public String getGroup() {
-    return group;
+  public Groups getGroups() {
+    return new Groups(groups);
   }
 
   public String getAllPhones() {
@@ -258,12 +267,12 @@ public class ContactData {
   }
 
   public String getEmail2() {
-      return email2;
+    return email2;
   }
 
   public String getEmail3() {
-      return email3;
-    }
+    return email3;
+  }
 
   public String getAllEmails() {
     return allEmails;
@@ -390,10 +399,6 @@ public class ContactData {
     return this;
   }
 
-  public ContactData withGroup(String group) {
-    this.group = group;
-    return this;
-  }
 
   public ContactData withAllPhones(String allPhones) {
     this.allPhones = allPhones;
@@ -422,6 +427,11 @@ public class ContactData {
 
   public ContactData withPhoto(String photo) {
     this.photo = photo;
+    return this;
+  }
+
+  public ContactData inGroup(GroupData group) {
+    groups.add(group);
     return this;
   }
 //  public ContactData withPhoto(String photo) {
@@ -459,7 +469,7 @@ public class ContactData {
     if (address2 != null ? !address2.equals(that.address2) : that.address2 != null) return false;
     if (phone2 != null ? !phone2.equals(that.phone2) : that.phone2 != null) return false;
     if (notes != null ? !notes.equals(that.notes) : that.notes != null) return false;
-    if (group != null ? !group.equals(that.group) : that.group != null) return false;
+
     if (email != null ? !email.equals(that.email) : that.email != null) return false;
     if (email2 != null ? !email2.equals(that.email2) : that.email2 != null) return false;
     return email3 != null ? email3.equals(that.email3) : that.email3 == null;
@@ -489,7 +499,7 @@ public class ContactData {
     result = 31 * result + (address2 != null ? address2.hashCode() : 0);
     result = 31 * result + (phone2 != null ? phone2.hashCode() : 0);
     result = 31 * result + (notes != null ? notes.hashCode() : 0);
-    result = 31 * result + (group != null ? group.hashCode() : 0);
+
     result = 31 * result + (email != null ? email.hashCode() : 0);
     result = 31 * result + (email2 != null ? email2.hashCode() : 0);
     result = 31 * result + (email3 != null ? email3.hashCode() : 0);
@@ -503,10 +513,7 @@ public class ContactData {
             ", firstname='" + firstname + '\'' +
             ", middlename='" + middlename + '\'' +
             ", lastname='" + lastname + '\'' +
-            ", nickname='" + nickname + '\'' +
-            ", photo='" + photo + '\'' +
-            ", email='" + email + '\'' +
+            ", amonth='" + amonth + '\'' +
             '}';
   }
-
 }

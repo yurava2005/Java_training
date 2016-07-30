@@ -3,10 +3,13 @@ package ua.stqa.addressbook.tests;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thoughtworks.xstream.XStream;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ua.stqa.addressbook.model.ContactData;
 import ua.stqa.addressbook.model.Contacts;
+import ua.stqa.addressbook.model.GroupData;
+import ua.stqa.addressbook.model.Groups;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -54,9 +57,20 @@ public class ContactCreationTests extends TestBase {
     }
   }
 
+  @BeforeMethod
+  public void ensurePreconditions() {
+    if (app.db().groups().size() == 0) {
+      app.goTo().groupPage();
+      app.group().create(new GroupData().withName("created by @BeforeMethod"));
+      app.goTo().homePage();
+    }
+  }
 
   @Test(enabled = true, dataProvider = "validContactsFromJSON")
   public void testContactCreation(ContactData contact) {
+
+    Groups groups = app.db().groups();
+    contact.inGroup(groups.iterator().next());
     app.goTo().homePage();
     Contacts before = app.db().contacts();
     app.contact().create(contact);

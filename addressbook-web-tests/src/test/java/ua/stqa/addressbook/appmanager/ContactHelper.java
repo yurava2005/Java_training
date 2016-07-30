@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ua.stqa.addressbook.model.ContactData;
 import ua.stqa.addressbook.model.Contacts;
+import ua.stqa.addressbook.model.GroupData;
 
 import java.util.List;
 
@@ -69,8 +70,9 @@ public class ContactHelper extends HelperBase {
     type(By.name("phone2"), contactData.getPhone2());
     type(By.name("notes"), contactData.getNotes());
     if (creation) {
-      if (contactData.getGroup() != null) {
-        selectFromDropDownList("new_group", contactData.getGroup());
+      if (contactData.getGroups().size() > 0 ) {
+        Assert.assertTrue(contactData.getGroups().size() == 1);
+        selectFromDropDownList("new_group", contactData.getGroups().iterator().next().getName());
       }
     } else {
       Assert.assertFalse(isElementPresent(By.name("new_group")));
@@ -202,4 +204,18 @@ public class ContactHelper extends HelperBase {
   }
 
 
+  public void addContactToGroup(ContactData contact, GroupData group) {
+    selectFromDropDownList("group", "[all]");
+    selectContactByID(contact.getId());
+    selectFromDropDownList("to_group", group.getName());
+    click(By.name("add"));
+    click(By.xpath("//div[@class='msgbox']/i/a"));
+  }
+
+  public void deleteContactFromGroup(ContactData contact, GroupData group) {
+    selectFromDropDownList("group", group.getName());
+    selectContactByID(contact.getId());
+    click(By.name("remove"));
+    click(By.xpath("//div[@class='msgbox']/i/a"));
+  }
 }

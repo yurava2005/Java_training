@@ -4,6 +4,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ua.stqa.addressbook.model.ContactData;
+import ua.stqa.addressbook.model.GroupData;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -51,6 +52,7 @@ public class ContactDataTests extends TestBase {
   public void ensurePreconditions() {
     app.goTo().homePage();
     if (app.contact().all().size() == 0) {
+      GroupData group = app.db().groups().iterator().next();
       app.contact().create(new ContactData().withFirstname("FirstName").withLastname("LastName")
               .withEmail("111@mail.ru").withEmail2("222@mail.ru").withEmail3("333@mail.ru   ")
               .withAddress("Address").withHome("Home").withFax("Fax")

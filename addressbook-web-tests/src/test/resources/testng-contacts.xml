@@ -5,6 +5,7 @@
         <classes>
             <class name="ua.stqa.addressbook.tests.ContactCreationTests" />
             <class name="ua.stqa.addressbook.tests.ContactModificationTests" />
+            <class name="ua.stqa.addressbook.tests.ContactAddToGroupTests" />
             <class name="ua.stqa.addressbook.tests.ContactDeletionTests" />
         </classes>
     </test>
