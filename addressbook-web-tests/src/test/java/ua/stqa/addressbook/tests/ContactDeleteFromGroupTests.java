@@ -31,44 +31,23 @@ public class ContactDeleteFromGroupTests extends TestBase {
       app.goTo().homePage();
       app.contact().create(new ContactData().withFirstname("created by ContactDeleteFromGroupTests"));
     }
-  //  ContactData newContact = app.db().contacts().iterator().next().inGroup(targetGroup);
+    //  ContactData newContact = app.db().contacts().iterator().next().inGroup(targetGroup);
     targetContact = app.db().contacts().iterator().next();
     app.contact().addContactToGroup(targetContact, targetGroup);
     app.goTo().homePage();
 
-    //  targetContact = targetContact.inGroup(targetGroup);
-    System.out.println("################################################################################");
-    System.out.println("Контакт - " + targetContact);
-    System.out.println("Из группы - " + targetGroup);
-    System.out.println("Когтакті группы - " + targetGroup.getContacts());
-    System.out.println("################################################################################");
-//    Groups contaclGroups = targetContact.getGroups();
-//    Contacts groupContacts = targetGroup.getContacts();
   }
 
 
   @Test
   public void testDeleteContactFromGroup() {
-    System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&7");
-    System.out.println("Группа - " + targetGroup);
-    System.out.println("И ее контакты before- " + targetGroup.getContacts());
-    System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&7");
     Groups before = targetContact.getGroups();
     app.contact().deleteContactFromGroup(targetContact, targetGroup);
     ContactData newContact = app.db().getContactByID(targetContact.getId());
     Groups after = newContact.getGroups();
- //   assertThat(after.size(), equalTo(before.size()-1));
+    assertThat(after.size(), equalTo(before.size() - 1));
 
     GroupData group = app.db().groups().iterator().next();
     Contacts contacts = group.getContacts();
-
-    System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&7");
-    System.out.println("Группа - " + targetGroup);
-    System.out.println("И ее контакты after - " + targetGroup.getContacts());
-    System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&7");
-   /* System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&7");
-    System.out.println("Группа - " + group);
-    System.out.println("И ее контакты - " + contacts);
-    System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&7");*/
   }
 }
