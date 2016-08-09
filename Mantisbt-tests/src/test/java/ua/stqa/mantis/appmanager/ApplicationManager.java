@@ -18,9 +18,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class ApplicationManager {
   private final Properties properties;
-  WebDriver wd;
+  private WebDriver wd;
 
   private String browser;
+  private RegistrationHelper registrationHelper;
 
 
   public ApplicationManager(String browser) {
@@ -30,26 +31,49 @@ public class ApplicationManager {
 
 
   public void init() throws IOException {
-    int timeOut = 0;
+
     String target = System.getProperty("target", "local");
     properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
 
-    if (Objects.equals(browser, BrowserType.FIREFOX)) {
-      wd = new FirefoxDriver();
-    } else if (Objects.equals(browser, BrowserType.CHROME)) {
-      wd = new ChromeDriver();
-    } else if (browser.equals(BrowserType.IE)) {
-      wd = new InternetExplorerDriver();
-      timeOut = 10;
-    }
-    wd.manage().timeouts().implicitlyWait(timeOut, TimeUnit.SECONDS);
-    wd.get(properties.getProperty("web.baseURL"));
-
 
   }
+
   public void stop() {
-    wd.quit();
+    if (wd != null) {
+      wd.quit();
+    }
   }
 
+  public HttpSession newSession() {
+    return new HttpSession(this);
+  }
 
+  public String getProperty(String key) {
+    return properties.getProperty(key);
+  }
+
+  public RegistrationHelper registration() {
+    if (registrationHelper == null) {
+      registrationHelper = new RegistrationHelper(this);
+    }
+    return registrationHelper;
+  }
+
+  public WebDriver getDriver() {
+    int timeOut = 0;
+    if (wd == null) {
+
+      if (Objects.equals(browser, BrowserType.FIREFOX)) {
+        wd = new FirefoxDriver();
+      } else if (Objects.equals(browser, BrowserType.CHROME)) {
+        wd = new ChromeDriver();
+      } else if (browser.equals(BrowserType.IE)) {
+        wd = new InternetExplorerDriver();
+        timeOut = 10;
+      }
+      wd.manage().timeouts().implicitlyWait(timeOut, TimeUnit.SECONDS);
+      wd.get(properties.getProperty("web.baseURL"));
+    }
+    return wd;
+  }
 }
